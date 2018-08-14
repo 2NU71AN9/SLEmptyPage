@@ -1,5 +1,5 @@
 //
-//  SLEmptyViewExtension.swift
+//  SLEmptyPageExtension.swift
 //  XiaocaoPlusNew
 //
 //  Created by X.T.X on 2018/1/17.
@@ -12,11 +12,12 @@ extension UIScrollView {
     private struct EmptyViewKey {
         static let emptyViewKey = UnsafeRawPointer(bitPattern:"scroll_emptyViewKey".hashValue)!
         static let oldEmptyViewKey = UnsafeRawPointer(bitPattern:"scroll_oldEmptyViewKey".hashValue)!
+        static let emptyViewEnableKey = UnsafeRawPointer(bitPattern:"scroll_emptyViewEnableKey".hashValue)!
     }
     
-    var oldEmptyView: UIView? {
+    var oldEmptyView: SLEmptyView? {
         get {
-            return objc_getAssociatedObject(self, EmptyViewKey.oldEmptyViewKey) as? UIView
+            return objc_getAssociatedObject(self, EmptyViewKey.oldEmptyViewKey) as? SLEmptyView
         }
         set {
             // 防止多次设置emptyView
@@ -28,14 +29,33 @@ extension UIScrollView {
     }
     
     /// tableView和collectionView必须实现有多少个section的协议
-    var emptyView: UIView? {
+    var emptyView: SLEmptyView? {
         get {
-            return objc_getAssociatedObject(self, EmptyViewKey.emptyViewKey) as? UIView
+            // emptyView为空时自动创建一个,使每个UIScrollView必有一个emptyView
+            var view = objc_getAssociatedObject(self, EmptyViewKey.emptyViewKey) as? SLEmptyView
+            if view == nil {
+                view = SLEmptyView()
+                self.oldEmptyView = view
+                objc_setAssociatedObject(self, EmptyViewKey.emptyViewKey, view, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+            return view
         }
         set {
             if let emptyView = newValue {
                 self.oldEmptyView = self.emptyView
                 objc_setAssociatedObject(self, EmptyViewKey.emptyViewKey, emptyView, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+        }
+    }
+    
+    /// 控制显不显示emptyView
+    var emptyViewEnable: Bool? {
+        get {
+            return objc_getAssociatedObject(self, EmptyViewKey.emptyViewEnableKey) as? Bool
+        }
+        set {
+            if let value = newValue {
+                objc_setAssociatedObject(self, EmptyViewKey.emptyViewEnableKey, value, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
@@ -45,9 +65,10 @@ extension UITableView {
     
     @objc func table_emptyLayoutSubviews() {
         table_emptyLayoutSubviews()
-        guard let emptyView = emptyView,
-            bounds != emptyView.frame else { return }
-        emptyView.frame = bounds
+        if emptyView == nil {
+            emptyView = SLEmptyView()
+        }
+        emptyView?.frame = bounds
     }
     
     @objc func table_emptyInsertRows(at indexPath: [IndexPath], with animation: UITableViewRowAnimation) {
@@ -86,44 +107,9 @@ extension UITableView {
                 base.table_emptyReloadData()
             }
         } else {
+            emptyView = SLEmptyView()
             self.table_emptyReloadData()
         }
-    }
-    
-    func setEmptyView(event: () -> ()) {
-        if frame.width == 0 || frame.height == 0 {
-            event()
-            return
-        }
-        guard let dataSource = dataSource,
-           let sectionCount = dataSource.numberOfSections?(in: self) else { return }
-        
-        var isHasRows = false
-        
-        for index in 0 ..< sectionCount {
-            if dataSource.tableView(self, numberOfRowsInSection: index) != 0 {
-                isHasRows = true
-                break
-            }
-        }
-    
-        isScrollEnabled = isHasRows
-        oldEmptyView?.removeFromSuperview()
-        if isHasRows {
-            emptyView?.removeFromSuperview()
-            event()
-            return
-        }
-    
-        event()
-        
-        if let emptyView = emptyView as? SLEmptyView {
-            /// 无网络连接时展示无网络状态页面
-            emptyView.emptyType = SLNetworkStatusManager.shared.networkStatus == .notReachable
-                ? .noService : emptyView.emptyType
-        }
-        emptyView?.frame = bounds
-        addSubview(emptyView ?? UIView())
     }
 }
 
@@ -131,8 +117,10 @@ extension UICollectionView {
     
     @objc func coll_emptyLayoutSubviews() {
         coll_emptyLayoutSubviews()
-        guard let emptyView = emptyView, bounds != emptyView.frame else{ return }
-        emptyView.frame = bounds
+        if emptyView == nil {
+            emptyView = SLEmptyView()
+        }
+        emptyView?.frame = bounds
     }
     
     @objc func coll_emptyInsertItems(at indexPaths: [IndexPath]){
@@ -164,18 +152,68 @@ extension UICollectionView {
     }
     
     @objc func coll_emptyReloadData() {
-        setEmptyView { [weak self] in
-            guard let base = self else { return }
-            base.coll_emptyReloadData()
+        if emptyView != nil {
+            setEmptyView { [weak self] in
+                guard let base = self else { return }
+                base.coll_emptyReloadData()
+            }
+        } else {
+            self.coll_emptyReloadData()
         }
     }
-    
-    func setEmptyView(event: () -> ()) {
-        if frame.size.width == 0 || frame.size.height == 0 { return }
-        guard let dataSource = dataSource else { return }
-        guard let sectionCount = dataSource.numberOfSections?(in: self) else { return }
+}
+
+extension UITableView {
+    private func setEmptyView(event: () -> ()) {
+        if frame.width == 0 || frame.height == 0 {
+            event()
+            return
+        }
+        guard let dataSource = dataSource,
+            let sectionCount = dataSource.numberOfSections?(in: self) else {
+                event()
+                return
+        }
         
         var isHasRows = false
+        
+        for index in 0 ..< sectionCount {
+            if dataSource.tableView(self, numberOfRowsInSection: index) != 0 {
+                isHasRows = true
+                break
+            }
+        }
+        
+        oldEmptyView?.removeFromSuperview()
+        if isHasRows {
+            emptyView?.removeFromSuperview()
+            event()
+            return
+        }
+        
+        event()
+        
+        if emptyView != nil && emptyViewEnable ?? true {
+            isScrollEnabled = false
+            addSubview(emptyView!)
+        }
+    }
+}
+
+extension UICollectionView {
+    private func setEmptyView(event: () -> ()) {
+        if frame.size.width == 0 || frame.size.height == 0 {
+            event()
+            return
+        }
+        guard let dataSource = dataSource,
+            let sectionCount = dataSource.numberOfSections?(in: self) else {
+                event()
+                return
+        }
+        
+        var isHasRows = false
+        
         for index in 0 ..< sectionCount {
             if dataSource.collectionView(self, numberOfItemsInSection: index) != 0 {
                 isHasRows = true
@@ -183,24 +221,18 @@ extension UICollectionView {
             }
         }
         
-        isScrollEnabled = isHasRows
         oldEmptyView?.removeFromSuperview()
-        
         if isHasRows {
             emptyView?.removeFromSuperview()
-            coll_emptyReloadData()
+            event()
             return
         }
         
-        coll_emptyReloadData()
+        event()
         
-        if let view = emptyView as? SLEmptyView  {
-            /// 无网络连接时展示无网络状态页面
-            view.emptyType = SLNetworkStatusManager.shared.networkStatus == .notReachable
-                ? .noService : view.emptyType
+        if emptyView != nil && emptyViewEnable ?? true {
+            isScrollEnabled = false
+            addSubview(emptyView!)
         }
-        emptyView?.frame = bounds
-        addSubview(emptyView ?? UIView())
     }
-    
 }

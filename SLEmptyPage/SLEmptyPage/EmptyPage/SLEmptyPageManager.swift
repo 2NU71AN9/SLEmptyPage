@@ -1,5 +1,5 @@
 //
-//  SLEmptyViewExchangeMethod.swift
+//  SLEmptyPageManager.swift
 //  XiaocaoPlusNew
 //
 //  Created by X.T.X on 2018/1/17.
@@ -8,9 +8,15 @@
 
 import UIKit
 
-class SLEmptyViewExchangeMethod {
+public class SLEmptyPageManager {
+    
+    public static var enable: Bool = false {
+        didSet {
+            enable ? SLEmptyPageManager.begin() : ()
+        }
+    }
     private static var exchanged = false // 是否已经进行过
-    public static func begin(){
+    private static func begin() {
         if exchanged { return }
         exchanged = true
         
