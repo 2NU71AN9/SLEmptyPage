@@ -1,7 +1,9 @@
 # SLEmptyPage
 利用RunTime设置UITableView和UICollectionView没有展示信息时显示自定义的空状态页面
 
+```
 pod 'SLEmptyPage'
+```
 
 AppDelegate中添加以下代码
 ```
