@@ -15,7 +15,7 @@ class SecondViewController: UIViewController {
         return tableView
     }()
     
-    var dateArray = ["1", "2", "3"]
+    var dateArray = ["1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +25,10 @@ class SecondViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         //        tableView.emptyViewEnable = false
-        tableView.emptyView?.action = {
+        tableView.emptyView?.action = { [weak self] in
             print("重新加载")
+            self?.dateArray = ["1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉"]
+            self?.tableView.reloadData()
         }
     }
 }

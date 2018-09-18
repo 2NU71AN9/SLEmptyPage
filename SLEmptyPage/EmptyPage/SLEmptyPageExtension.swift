@@ -187,6 +187,7 @@ extension UITableView {
         oldEmptyView?.removeFromSuperview()
         if isHasRows {
             emptyView?.removeFromSuperview()
+            isScrollEnabled = true
             event()
             return
         }
