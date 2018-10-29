@@ -11,38 +11,38 @@ import UIKit
 public class SLEmptyView: UIView {
     
     /// 默认展示图片
-    static var defaultImage: UIImage? = {
+    public static var defaultImage: UIImage? = {
         let path = Bundle(for: SLEmptyView.self).resourcePath! + "/Resource.bundle"
         let CABundle = Bundle(path: path)!
         return UIImage(named: "emptyImage", in:  CABundle, compatibleWith: nil)
     }()
     /// 默认提示内容, nil时隐藏label
-    static var defaultText: String? = "没有找到任何内容哦~"
+    public static var defaultText: String? = "没有找到任何内容哦~"
     /// 默认按钮文字, nil时隐藏按钮
-    static var defaultActionTitle: String? = "重新加载"
+    public static var defaultActionTitle: String? = "重新加载"
     
     /// 展示图片,不设置时用默认的
-    var image: UIImage? {
+    public var image: UIImage? {
         didSet {
             imageView.image = image
         }
     }
     /// 提示内容,不设置时用默认的,设置nil时隐藏label
-    var text: String? {
+    public var text: String? {
         didSet {
             textLabel.text = text
             textLabel.isHidden = text == nil
         }
     }
     /// 按钮文字,不设置时用默认的,设置nil时隐藏按钮
-    var actionTitle: String? {
+    public var actionTitle: String? {
         didSet {
             button.setTitle(actionTitle, for: .normal)
             button.isHidden = actionTitle == nil
         }
     }
     /// 按钮点击触发的闭包
-    var action: (() -> Void)?
+    public var action: (() -> Void)?
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -68,7 +68,7 @@ public class SLEmptyView: UIView {
         return button
     }()
     
-    init() {
+    public init() {
         super.init(frame: CGRect.zero)
         backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         addSubview(imageView)

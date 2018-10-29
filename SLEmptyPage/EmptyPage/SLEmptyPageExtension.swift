@@ -8,14 +8,14 @@
 
 import UIKit
 
-extension UIScrollView {
+public extension UIScrollView {
     private struct EmptyViewKey {
         static let emptyViewKey = UnsafeRawPointer(bitPattern:"scroll_emptyViewKey".hashValue)!
         static let oldEmptyViewKey = UnsafeRawPointer(bitPattern:"scroll_oldEmptyViewKey".hashValue)!
         static let emptyViewEnableKey = UnsafeRawPointer(bitPattern:"scroll_emptyViewEnableKey".hashValue)!
     }
     
-    var oldEmptyView: SLEmptyView? {
+    public var oldEmptyView: SLEmptyView? {
         get {
             return objc_getAssociatedObject(self, EmptyViewKey.oldEmptyViewKey) as? SLEmptyView
         }
@@ -29,7 +29,7 @@ extension UIScrollView {
     }
     
     /// tableView和collectionView必须实现有多少个section的协议
-    var emptyView: SLEmptyView? {
+    public var emptyView: SLEmptyView? {
         get {
             // emptyView为空时自动创建一个,使每个UIScrollView必有一个emptyView
             var view = objc_getAssociatedObject(self, EmptyViewKey.emptyViewKey) as? SLEmptyView
@@ -49,7 +49,7 @@ extension UIScrollView {
     }
     
     /// 控制显不显示emptyView
-    var emptyViewEnable: Bool? {
+    public var emptyViewEnable: Bool? {
         get {
             return objc_getAssociatedObject(self, EmptyViewKey.emptyViewEnableKey) as? Bool
         }
@@ -71,28 +71,28 @@ extension UITableView {
         emptyView?.frame = bounds
     }
     
-    @objc func table_emptyInsertRows(at indexPath: [IndexPath], with animation: UITableViewRowAnimation) {
+    @objc func table_emptyInsertRows(at indexPath: [IndexPath], with animation: UITableView.RowAnimation) {
         setEmptyView { [weak self] in
             guard let base = self else { return }
             base.table_emptyInsertRows(at: indexPath, with: animation)
         }
     }
     
-    @objc func table_emptyDeleteRows(at indexPath: [IndexPath], with animation: UITableViewRowAnimation) {
+    @objc func table_emptyDeleteRows(at indexPath: [IndexPath], with animation: UITableView.RowAnimation) {
         setEmptyView { [weak self] in
             guard let base = self else { return }
             base.table_emptyDeleteRows(at: indexPath, with: animation)
         }
     }
     
-    @objc func table_emptyInsertSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    @objc func table_emptyInsertSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         setEmptyView { [weak self] in
             guard let base = self else { return }
             base.table_emptyInsertSections(sections, with: animation)
         }
     }
     
-    @objc func table_emptyDeleteSections(_ sections: IndexSet, with animation: UITableViewRowAnimation) {
+    @objc func table_emptyDeleteSections(_ sections: IndexSet, with animation: UITableView.RowAnimation) {
         setEmptyView { [weak self] in
             guard let base = self else { return }
             base.table_emptyDeleteSections(sections, with: animation)
