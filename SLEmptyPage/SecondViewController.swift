@@ -25,12 +25,13 @@ class SecondViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 //        tableView.emptyViewEnable = false
-        if let emptyView = tableView.emptyView as? SLEmptyView {
-            emptyView.tapAction = { [weak self] in
-                print("重新加载")
-                self?.dateArray = ["1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉"]
-                self?.tableView.reloadData()
-            }
+//        tableView.emptyView?.offsetY = 300
+        tableView.emptyView?.text = "暂无数据"
+        tableView.emptyView?.actionTitle = "重新加载"
+        tableView.emptyView?.tapAction = { [weak self] in
+            print("重新加载")
+            self?.dateArray = ["1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉"]
+            self?.tableView.reloadData()
         }
     }
 }

@@ -15,9 +15,9 @@ public extension UIScrollView {
         static let emptyViewEnableKey = UnsafeRawPointer(bitPattern:"scroll_emptyViewEnableKey".hashValue)!
     }
     
-    public var oldEmptyView: UIView? {
+    var oldEmptyView: SLEmptyView? {
         get {
-            return objc_getAssociatedObject(self, EmptyViewKey.oldEmptyViewKey) as? UIView
+            return objc_getAssociatedObject(self, EmptyViewKey.oldEmptyViewKey) as? SLEmptyView
         }
         set {
             // 防止多次设置emptyView
@@ -29,12 +29,12 @@ public extension UIScrollView {
     }
     
     /// tableView和collectionView必须实现有多少个section的协议
-    public var emptyView: UIView? {
+    var emptyView: SLEmptyView? {
         get {
             // emptyView为空时自动创建一个,使每个UIScrollView必有一个emptyView
-            var view = objc_getAssociatedObject(self, EmptyViewKey.emptyViewKey) as? UIView
+            var view = objc_getAssociatedObject(self, EmptyViewKey.emptyViewKey) as? SLEmptyView
             if view == nil {
-                view = SLEmptyPageManager.defaultEmptyView.init()
+                view = SLEmptyView()
                 self.oldEmptyView = view
                 objc_setAssociatedObject(self, EmptyViewKey.emptyViewKey, view, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
@@ -49,7 +49,7 @@ public extension UIScrollView {
     }
     
     /// 控制显不显示emptyView
-    public var emptyViewEnable: Bool? {
+    var emptyViewEnable: Bool? {
         get {
             return objc_getAssociatedObject(self, EmptyViewKey.emptyViewEnableKey) as? Bool
         }
@@ -66,9 +66,10 @@ extension UITableView {
     @objc func table_emptyLayoutSubviews() {
         table_emptyLayoutSubviews()
         if emptyView == nil {
-            emptyView = SLEmptyPageManager.defaultEmptyView.init()
+            emptyView = SLEmptyView()
         }
         emptyView?.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
+        setEmptyView {}
     }
     
     @objc func table_emptyInsertRows(at indexPath: [IndexPath], with animation: UITableView.RowAnimation) {
@@ -107,7 +108,7 @@ extension UITableView {
                 base.table_emptyReloadData()
             }
         } else {
-            emptyView = SLEmptyPageManager.defaultEmptyView.init()
+            emptyView = SLEmptyView()
             self.table_emptyReloadData()
         }
     }
@@ -118,7 +119,7 @@ extension UICollectionView {
     @objc func coll_emptyLayoutSubviews() {
         coll_emptyLayoutSubviews()
         if emptyView == nil {
-            emptyView = SLEmptyPageManager.defaultEmptyView.init()
+            emptyView = SLEmptyView()
         }
         emptyView?.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
     }

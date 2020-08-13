@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 public class SLEmptyView: UIView {
     
@@ -32,6 +33,16 @@ public class SLEmptyView: UIView {
     }
     /// 按钮点击触发的闭包
     public var tapAction: (() -> Void)?
+    /// 距离顶部多少, nil时在屏幕中间
+    public var offsetY: CGFloat? {
+        didSet {
+            if let offsetY = offsetY {
+                stackView.snp.makeConstraints { (make) in
+                    make.top.equalToSuperview().offset(offsetY)
+                }
+            }
+        }
+    }
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -41,7 +52,8 @@ public class SLEmptyView: UIView {
     private lazy var textLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.5741485357, green: 0.5741624236, blue: 0.574154973, alpha: 1)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.text = text ?? SLEmptyPageManager.defaultText
         label.isHidden = text == nil && SLEmptyPageManager.defaultText == nil
         return label
@@ -49,9 +61,10 @@ public class SLEmptyView: UIView {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 45/2
+        button.layer.cornerRadius = 35/2
         button.backgroundColor = SLEmptyPageManager.defaultActionBackColor
         button.setTitleColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.setTitle(actionTitle ?? SLEmptyPageManager.defaultActionTitle, for: .normal)
         button.isHidden = actionTitle == nil && SLEmptyPageManager.defaultActionTitle == nil
         button.clipsToBounds = true
@@ -70,11 +83,12 @@ public class SLEmptyView: UIView {
     }()
     
     public init() {
-        super.init(frame: UIScreen.main.bounds)
-        backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        super.init(frame: CGRect.zero)
+        backgroundColor = SLEmptyPageManager.defaultEmptyViewBgColor
         addSubview(stackView)
         stackView.addArrangedSubview(imageView)
         stackView.addArrangedSubview(textLabel)
+        stackView.addArrangedSubview(UILabel())
         stackView.addArrangedSubview(button)
     }
     
@@ -84,21 +98,19 @@ public class SLEmptyView: UIView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        
-        //宽度约束
-        let widthConstraint = NSLayoutConstraint(item: stackView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: UIScreen.main.bounds.width)
-        //高度约束
-        let heightConstraint = NSLayoutConstraint(item: stackView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 200)
-        stackView.addConstraints([widthConstraint, heightConstraint])
-        // 中心
-        let centerConstraint = NSLayoutConstraint(item: stackView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: -100)
-        addConstraint(centerConstraint)
-        
-        //宽度约束
-        let widthConstraint2 = NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 200)
-        //高度约束
-        let heightConstraint2 = NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 45)
-        button.addConstraints([widthConstraint2, heightConstraint2])
+        stackView.snp.makeConstraints { (make) in
+            make.width.centerX.equalToSuperview()
+            make.height.lessThanOrEqualToSuperview()
+            if let offsetY = offsetY {
+                make.top.equalToSuperview().offset(offsetY)
+            } else {
+                make.centerY.equalToSuperview().offset(-UIApplication.shared.statusBarFrame.height - 44)
+            }
+        }
+        button.snp.makeConstraints { (make) in
+            make.width.equalTo(120)
+            make.height.equalTo(35)
+        }
     }
     
     @objc func buttonClick() {

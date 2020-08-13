@@ -10,19 +10,20 @@ import UIKit
 
 public class SLEmptyPageManager {
     
-    static var defaultEmptyView: UIView.Type = SLEmptyView.self
-    /// 默认展示图片
+    /// 展示图片
     public static var defaultImage: UIImage? = {
         let path = Bundle(for: SLEmptyView.self).resourcePath! + "/Resource.bundle"
         let CABundle = Bundle(path: path)!
         return UIImage(named: "emptyImage", in:  CABundle, compatibleWith: nil)
     }()
-    /// 默认提示内容, nil时隐藏label
-    public static var defaultText: String? = "没有找到任何内容哦~"
-    /// 默认按钮文字, nil时隐藏按钮
-    public static var defaultActionTitle: String? = "重新加载"
-    /// 默认按钮背景颜色
+    /// 提示内容, nil时隐藏label
+    public static var defaultText: String? = "暂无数据"
+    /// 按钮文字, nil时隐藏按钮
+    public static var defaultActionTitle: String? = nil
+    /// 按钮背景颜色
     public static var defaultActionBackColor: UIColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1)
+    /// EmptyView背景颜色
+    public static var defaultEmptyViewBgColor: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     
     public static var enable: Bool = false {
         didSet {
