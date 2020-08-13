@@ -8,24 +8,24 @@
 
 import UIKit
 
-public class SLEmptyPageManager {
+public class SLEmptyPageManager: NSObject {
     
     /// 展示图片
-    public static var defaultImage: UIImage? = {
+    @objc public static var defaultImage: UIImage? = {
         let path = Bundle(for: SLEmptyView.self).resourcePath! + "/Resource.bundle"
         let CABundle = Bundle(path: path)!
         return UIImage(named: "emptyImage", in:  CABundle, compatibleWith: nil)
     }()
     /// 提示内容, nil时隐藏label
-    public static var defaultText: String? = "暂无数据"
+    @objc public static var defaultText: String? = "暂无数据"
     /// 按钮文字, nil时隐藏按钮
-    public static var defaultActionTitle: String? = nil
+    @objc public static var defaultActionTitle: String? = nil
     /// 按钮背景颜色
-    public static var defaultActionBackColor: UIColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1)
+    @objc public static var defaultActionBackColor: UIColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1)
     /// EmptyView背景颜色
-    public static var defaultEmptyViewBgColor: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    @objc public static var defaultEmptyViewBgColor: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     
-    public static var enable: Bool = false {
+    @objc public static var enable: Bool = false {
         didSet {
             enable ? SLEmptyPageManager.begin() : ()
         }

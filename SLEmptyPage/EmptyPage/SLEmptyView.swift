@@ -12,31 +12,31 @@ import SnapKit
 public class SLEmptyView: UIView {
     
     /// 展示图片,不设置时用默认的
-    public var image: UIImage? {
+    @objc public var image: UIImage? {
         didSet {
             imageView.image = image
         }
     }
     /// 提示内容,不设置时用默认的,设置nil时隐藏label
-    public var text: String? {
+    @objc public var text: String? {
         didSet {
             textLabel.text = text
             textLabel.isHidden = text == nil
         }
     }
     /// 按钮文字,不设置时用默认的,设置nil时隐藏按钮
-    public var actionTitle: String? {
+    @objc public var actionTitle: String? {
         didSet {
             button.setTitle(actionTitle, for: .normal)
             button.isHidden = actionTitle == nil
         }
     }
     /// 按钮点击触发的闭包
-    public var tapAction: (() -> Void)?
-    /// 距离顶部多少, nil时在屏幕中间
-    public var offsetY: CGFloat? {
+    @objc public var tapAction: (() -> Void)?
+    /// 距离顶部多少, -1时在屏幕中间
+    @objc public var offsetY: CGFloat = -1 {
         didSet {
-            if let offsetY = offsetY {
+            if offsetY != -1 {
                 stackView.snp.makeConstraints { (make) in
                     make.top.equalToSuperview().offset(offsetY)
                 }
@@ -101,7 +101,7 @@ public class SLEmptyView: UIView {
         stackView.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()
             make.height.lessThanOrEqualToSuperview()
-            if let offsetY = offsetY {
+            if offsetY != -1 {
                 make.top.equalToSuperview().offset(offsetY)
             } else {
                 make.centerY.equalToSuperview().offset(-UIApplication.shared.statusBarFrame.height - 44)

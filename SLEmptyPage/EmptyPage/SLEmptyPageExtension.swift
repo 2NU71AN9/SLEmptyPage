@@ -15,7 +15,7 @@ public extension UIScrollView {
         static let emptyViewEnableKey = UnsafeRawPointer(bitPattern:"scroll_emptyViewEnableKey".hashValue)!
     }
     
-    var oldEmptyView: SLEmptyView? {
+    @objc var oldEmptyView: SLEmptyView? {
         get {
             return objc_getAssociatedObject(self, EmptyViewKey.oldEmptyViewKey) as? SLEmptyView
         }
@@ -29,7 +29,7 @@ public extension UIScrollView {
     }
     
     /// tableView和collectionView必须实现有多少个section的协议
-    var emptyView: SLEmptyView? {
+    @objc var emptyView: SLEmptyView? {
         get {
             // emptyView为空时自动创建一个,使每个UIScrollView必有一个emptyView
             var view = objc_getAssociatedObject(self, EmptyViewKey.emptyViewKey) as? SLEmptyView
@@ -49,14 +49,12 @@ public extension UIScrollView {
     }
     
     /// 控制显不显示emptyView
-    var emptyViewEnable: Bool? {
+    @objc var emptyViewEnable: Bool {
         get {
-            return objc_getAssociatedObject(self, EmptyViewKey.emptyViewEnableKey) as? Bool
+            return objc_getAssociatedObject(self, EmptyViewKey.emptyViewEnableKey) as? Bool ?? true
         }
         set {
-            if let value = newValue {
-                objc_setAssociatedObject(self, EmptyViewKey.emptyViewEnableKey, value, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            }
+            objc_setAssociatedObject(self, EmptyViewKey.emptyViewEnableKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 }
@@ -194,7 +192,7 @@ extension UITableView {
         
         event()
         
-        if let emptyView = emptyView, emptyViewEnable ?? true, subviews.contains(emptyView) == false {
+        if let emptyView = emptyView, emptyViewEnable, subviews.contains(emptyView) == false {
             addSubview(emptyView)
         }
     }
@@ -230,7 +228,7 @@ extension UICollectionView {
         
         event()
         
-        if let emptyView = emptyView, emptyViewEnable ?? true, subviews.contains(emptyView) == false {
+        if let emptyView = emptyView, emptyViewEnable, subviews.contains(emptyView) == false {
             addSubview(emptyView)
         }
     }
