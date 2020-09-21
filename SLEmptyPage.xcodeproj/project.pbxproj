@@ -19,6 +19,8 @@
 		12963D5E2122CEB200535CC7 /* SLEmptyPageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12963D5D2122CEB200535CC7 /* SLEmptyPageManager.swift */; };
 		12963D602122D0B200535CC7 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12963D5F2122D0B200535CC7 /* SecondViewController.swift */; };
 		71D5E31A59029501C16FE9F4 /* Pods_SLEmptyPage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B61810D1B53429B0498AFF15 /* Pods_SLEmptyPage.framework */; };
+		D21D71CC25189233006A487E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21D71CA25189233006A487E /* WebViewController.swift */; };
+		D21D71CD25189233006A487E /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D21D71CB25189233006A487E /* WebViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		77AF4D0CE4A9E06B6EDA7EED /* Pods-SLEmptyPage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SLEmptyPage.release.xcconfig"; path = "Target Support Files/Pods-SLEmptyPage/Pods-SLEmptyPage.release.xcconfig"; sourceTree = "<group>"; };
 		A76AE77535F22142EF3F542F /* Pods-SLEmptyPage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SLEmptyPage.debug.xcconfig"; path = "Target Support Files/Pods-SLEmptyPage/Pods-SLEmptyPage.debug.xcconfig"; sourceTree = "<group>"; };
 		B61810D1B53429B0498AFF15 /* Pods_SLEmptyPage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SLEmptyPage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D21D71CA25189233006A487E /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		D21D71CB25189233006A487E /* WebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,8 @@
 				12963D3621227B4900535CC7 /* AppDelegate.swift */,
 				12963D3821227B4900535CC7 /* ViewController.swift */,
 				12963D5F2122D0B200535CC7 /* SecondViewController.swift */,
+				D21D71CA25189233006A487E /* WebViewController.swift */,
+				D21D71CB25189233006A487E /* WebViewController.xib */,
 				12963D3A21227B4900535CC7 /* Main.storyboard */,
 				12963D3D21227B4A00535CC7 /* Assets.xcassets */,
 				12963D3F21227B4A00535CC7 /* LaunchScreen.storyboard */,
@@ -177,6 +183,7 @@
 				12963D4121227B4A00535CC7 /* LaunchScreen.storyboard in Resources */,
 				12963D3E21227B4A00535CC7 /* Assets.xcassets in Resources */,
 				12963D3C21227B4900535CC7 /* Main.storyboard in Resources */,
+				D21D71CD25189233006A487E /* WebViewController.xib in Resources */,
 				12963D5C2122C81300535CC7 /* Resource.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,6 +244,7 @@
 				12963D602122D0B200535CC7 /* SecondViewController.swift in Sources */,
 				12963D3721227B4900535CC7 /* AppDelegate.swift in Sources */,
 				12963D5E2122CEB200535CC7 /* SLEmptyPageManager.swift in Sources */,
+				D21D71CC25189233006A487E /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

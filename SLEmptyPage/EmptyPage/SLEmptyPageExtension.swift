@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 
 public extension UIScrollView {
     private struct EmptyViewKey {
@@ -231,5 +232,58 @@ extension UICollectionView {
         if let emptyView = emptyView, emptyViewEnable, subviews.contains(emptyView) == false {
             addSubview(emptyView)
         }
+    }
+}
+
+public extension WKWebView {
+    
+    private struct EmptyViewKey {
+        static let emptyViewKey = UnsafeRawPointer(bitPattern:"webView_emptyViewKey".hashValue)!
+        static let oldEmptyViewKey = UnsafeRawPointer(bitPattern:"webView_oldEmptyViewKey".hashValue)!
+    }
+    
+    @objc var oldEmptyView: SLEmptyView? {
+        get {
+            return objc_getAssociatedObject(self, EmptyViewKey.oldEmptyViewKey) as? SLEmptyView
+        }
+        set {
+            // 防止多次设置emptyView
+            if oldEmptyView?.superview != nil { return }
+            if let emptyView = newValue {
+                objc_setAssociatedObject(self, EmptyViewKey.oldEmptyViewKey, emptyView, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+        }
+    }
+    
+    @objc var emptyView: SLEmptyView? {
+        get {
+            return objc_getAssociatedObject(self, EmptyViewKey.emptyViewKey) as? SLEmptyView
+        }
+        set {
+            if let emptyView = newValue {
+                self.oldEmptyView = self.emptyView
+                objc_setAssociatedObject(self, EmptyViewKey.emptyViewKey, emptyView, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+        }
+    }
+}
+ 
+extension WKWebView {
+    public func showEmptyView() {
+        if emptyView == nil {
+            let view = SLEmptyView()
+            view.text = "加载失败"
+            view.actionTitle = "重新加载"
+            view.tapAction = { [weak self] in
+                // TODO: - reload不管用, 利用运行时load时保存request, 然后重新loadRequest
+                self?.reload()
+            }
+            view.frame = bounds
+            addSubview(view)
+            emptyView = view
+        }
+    }
+    public func hideEmptyView() {
+        emptyView?.removeFromSuperview()
     }
 }
