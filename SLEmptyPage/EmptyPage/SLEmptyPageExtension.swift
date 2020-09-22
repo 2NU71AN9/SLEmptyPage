@@ -280,8 +280,13 @@ public extension WKWebView {
     }
 }
  
-extension WKWebView {
-    public func showEmptyView() {
+public extension WKWebView {
+    func sl_load(_ request: URLRequest) {
+        sl_request = request
+        load(request)
+    }
+    
+    func showEmptyView() {
         if emptyView == nil {
             let view = SLEmptyView()
             view.text = "加载失败"
@@ -300,12 +305,8 @@ extension WKWebView {
             addSubview(emptyView!)
         }
     }
-    public func hideEmptyView() {
-        emptyView?.removeFromSuperview()
-    }
     
-    @objc func sl_load(_ request: URLRequest) {
-        sl_request = request
-        load(request)
+    func hideEmptyView() {
+        emptyView?.removeFromSuperview()
     }
 }
