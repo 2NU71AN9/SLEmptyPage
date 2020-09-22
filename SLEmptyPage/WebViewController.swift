@@ -19,7 +19,7 @@ class WebViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        webView.load(URLRequest(url: URL(string: "https://www.baidu.com")!, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 5))
+        webView.sl_load(URLRequest(url: URL(string: "https://www.baidu.com")!, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 5))
     }
 }
 

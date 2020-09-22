@@ -240,6 +240,7 @@ public extension WKWebView {
     private struct EmptyViewKey {
         static let emptyViewKey = UnsafeRawPointer(bitPattern:"webView_emptyViewKey".hashValue)!
         static let oldEmptyViewKey = UnsafeRawPointer(bitPattern:"webView_oldEmptyViewKey".hashValue)!
+        static let requestKey = UnsafeRawPointer(bitPattern:"webView_requestKey".hashValue)!
     }
     
     @objc var oldEmptyView: SLEmptyView? {
@@ -266,6 +267,17 @@ public extension WKWebView {
             }
         }
     }
+    
+    @objc var sl_request: URLRequest? {
+        get {
+            return objc_getAssociatedObject(self, EmptyViewKey.requestKey) as? URLRequest
+        }
+        set {
+            if let request = newValue {
+                objc_setAssociatedObject(self, EmptyViewKey.requestKey, request, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+        }
+    }
 }
  
 extension WKWebView {
@@ -275,15 +287,25 @@ extension WKWebView {
             view.text = "加载失败"
             view.actionTitle = "重新加载"
             view.tapAction = { [weak self] in
-                // TODO: - reload不管用, 利用运行时load时保存request, 然后重新loadRequest
-                self?.reload()
+                if self?.url != nil {
+                    self?.reload()
+                } else if let request = self?.sl_request {
+                    self?.load(request)
+                }
             }
             view.frame = bounds
             addSubview(view)
             emptyView = view
+        } else {
+            addSubview(emptyView!)
         }
     }
     public func hideEmptyView() {
         emptyView?.removeFromSuperview()
+    }
+    
+    @objc func sl_load(_ request: URLRequest) {
+        sl_request = request
+        load(request)
     }
 }
