@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 public class SLEmptyView: UIView {
-    
+
     /// 展示图片,不设置时用默认的
     @objc public var image: UIImage? {
         didSet {
@@ -43,7 +43,7 @@ public class SLEmptyView: UIView {
             }
         }
     }
-    
+
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = image ?? SLEmptyPageManager.defaultImage
@@ -81,7 +81,7 @@ public class SLEmptyView: UIView {
         stackView.distribution = .equalSpacing
         return stackView
     }()
-    
+
     public init() {
         super.init(frame: CGRect.zero)
         backgroundColor = SLEmptyPageManager.defaultEmptyViewBgColor
@@ -91,11 +91,11 @@ public class SLEmptyView: UIView {
         stackView.addArrangedSubview(UILabel())
         stackView.addArrangedSubview(button)
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func layoutSubviews() {
         super.layoutSubviews()
         stackView.snp.makeConstraints { (make) in
@@ -112,7 +112,7 @@ public class SLEmptyView: UIView {
             make.height.equalTo(35)
         }
     }
-    
+
     @objc func buttonClick() {
         tapAction?()
     }

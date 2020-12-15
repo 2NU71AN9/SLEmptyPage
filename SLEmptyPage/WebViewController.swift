@@ -16,7 +16,7 @@ class WebViewController: UIViewController {
             webView.navigationDelegate = self
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.sl_load(URLRequest(url: URL(string: "https://www.baidu.com")!, cachePolicy: .reloadIgnoringCacheData, timeoutInterval: 5))

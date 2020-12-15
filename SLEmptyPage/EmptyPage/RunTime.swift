@@ -44,7 +44,7 @@ struct RunTime {
                           select2,
                           method_getImplementation(select1Method!),
                           method_getTypeEncoding(select1Method!))
-    }else {
+    } else {
       method_exchangeImplementations(select1Method!, select2Method!)
     }
   }
@@ -75,7 +75,7 @@ struct RunTime {
     let properties = class_copyPropertyList(classType, &propNum)
     var list = [objc_property_t]()
     for index in 0..<Int(propNum) {
-      if let prop = properties?[index]{
+      if let prop = properties?[index] {
         list.append(prop)
       }
     }
@@ -99,5 +99,5 @@ struct RunTime {
     free(ivars)
     return list
   }
-  
+
 }

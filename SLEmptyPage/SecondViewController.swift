@@ -14,12 +14,12 @@ class SecondViewController: UIViewController {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
         return tableView
     }()
-    
+
     var dateArray = ["1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉"]
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.frame = view.bounds
         view.addSubview(tableView)
         tableView.delegate = self
@@ -35,7 +35,7 @@ class SecondViewController: UIViewController {
         }
     }
 }
-    
+
 extension SecondViewController: UITableViewDelegate, UITableViewDataSource {
         func numberOfSections(in tableView: UITableView) -> Int {
             return 1
@@ -54,7 +54,7 @@ extension SecondViewController: UITableViewDelegate, UITableViewDataSource {
         func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             return 50
         }
-        
+
         func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
             dateArray.removeAll()
             tableView.reloadData()
