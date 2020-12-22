@@ -5,10 +5,11 @@
 pod 'SLEmptyPage'
 ```
 
-AppDelegate中添加以下代码
+使用方法
 ```
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
      SLEmptyPageManager.enable = true
+     ...
      return true
 }
 ```
