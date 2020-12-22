@@ -35,7 +35,7 @@ public extension UIScrollView {
             // emptyView为空时自动创建一个,使每个UIScrollView必有一个emptyView
             var view = objc_getAssociatedObject(self, EmptyViewKey.emptyViewKey) as? SLEmptyView
             if view == nil {
-                view = SLEmptyView()
+                view = SLEmptyView.loadView()
                 self.oldEmptyView = view
                 objc_setAssociatedObject(self, EmptyViewKey.emptyViewKey, view, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
@@ -65,9 +65,8 @@ extension UITableView {
     @objc func table_emptyLayoutSubviews() {
         table_emptyLayoutSubviews()
         if emptyView == nil {
-            emptyView = SLEmptyView()
+            emptyView = SLEmptyView.loadView()
         }
-        emptyView?.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
         setEmptyView {}
     }
 
@@ -107,7 +106,7 @@ extension UITableView {
                 base.table_emptyReloadData()
             }
         } else {
-            emptyView = SLEmptyView()
+            emptyView = SLEmptyView.loadView()
             self.table_emptyReloadData()
         }
     }
@@ -118,9 +117,8 @@ extension UICollectionView {
     @objc func coll_emptyLayoutSubviews() {
         coll_emptyLayoutSubviews()
         if emptyView == nil {
-            emptyView = SLEmptyView()
+            emptyView = SLEmptyView.loadView()
         }
-        emptyView?.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
     }
 
     @objc func coll_emptyInsertItems(at indexPaths: [IndexPath]) {
@@ -288,17 +286,16 @@ public extension WKWebView {
 
     func showEmptyView() {
         if emptyView == nil {
-            let view = SLEmptyView()
+            let view = SLEmptyView.loadView()
             view.text = "加载失败"
             view.actionTitle = "重新加载"
-            view.tapAction = { [weak self] in
+            view.refreshAction = { [weak self] in
                 if self?.url != nil {
                     self?.reload()
                 } else if let request = self?.sl_request {
                     self?.load(request)
                 }
             }
-            view.frame = bounds
             addSubview(view)
             emptyView = view
         } else {

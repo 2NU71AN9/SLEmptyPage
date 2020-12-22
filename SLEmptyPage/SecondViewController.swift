@@ -19,19 +19,24 @@ class SecondViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.frame = view.bounds
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
 //        tableView.emptyViewEnable = false
-//        tableView.emptyView?.offsetY = 300
-        tableView.emptyView?.text = "暂无数据"
+//        tableView.emptyView?.topMargen = 300
         tableView.emptyView?.actionTitle = "重新加载"
-        tableView.emptyView?.tapAction = { [weak self] in
+        tableView.emptyView?.refreshAction = { [weak self] in
             print("重新加载")
             self?.dateArray = ["1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉"]
             self?.tableView.reloadData()
+        }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        tableView.snp.makeConstraints { (make) in
+            make.size.equalToSuperview()
+            make.center.equalToSuperview()
         }
     }
 }

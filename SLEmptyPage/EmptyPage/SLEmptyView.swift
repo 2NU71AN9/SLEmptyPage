@@ -27,93 +27,87 @@ public class SLEmptyView: UIView {
     /// 按钮文字,不设置时用默认的,设置nil时隐藏按钮
     @objc public var actionTitle: String? {
         didSet {
-            button.setTitle(actionTitle, for: .normal)
-            button.isHidden = actionTitle == nil
+            refreshBtn.setTitle(actionTitle, for: .normal)
+            refreshBtn.isHidden = actionTitle == nil
         }
     }
     /// 按钮点击触发的闭包
-    @objc public var tapAction: (() -> Void)?
+    @objc public var refreshAction: (() -> Void)?
     /// 距离顶部多少, -1时在屏幕中间
-    @objc public var offsetY: CGFloat = -1 {
+    @objc public var topMargen: CGFloat = -1 {
         didSet {
-            if offsetY != -1 {
-                stackView.snp.makeConstraints { (make) in
-                    make.top.equalToSuperview().offset(offsetY)
-                }
-            }
+            topConstraint.constant = topMargen
+            topConstraint.isActive = topMargen != -1
+            centerYConstraint.isActive = topMargen == -1
         }
     }
+    
+    @IBOutlet private weak var imageView: UIImageView! {
+        didSet {
+            imageView.image = image ?? SLEmptyPageManager.defaultImage
+        }
+    }
+    @IBOutlet private weak var textLabel: UILabel! {
+        didSet {
+            textLabel.text = text ?? SLEmptyPageManager.defaultText
+            textLabel.isHidden = text == nil && SLEmptyPageManager.defaultText == nil
+        }
+    }
+    @IBOutlet private weak var refreshBtn: UIButton! {
+        didSet {
+            refreshBtn.layer.cornerRadius = 22.5
+            refreshBtn.clipsToBounds = true
+            refreshBtn.backgroundColor = SLEmptyPageManager.defaultActionBackColor
+            refreshBtn.setTitle(actionTitle ?? SLEmptyPageManager.defaultActionTitle, for: .normal)
+            refreshBtn.isHidden = actionTitle == nil && SLEmptyPageManager.defaultActionTitle == nil
+        }
+    }
+    @IBOutlet private weak var topConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var centerYConstraint: NSLayoutConstraint!
 
-    private lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = image ?? SLEmptyPageManager.defaultImage
-        return imageView
-    }()
-    private lazy var textLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 0.5741485357, green: 0.5741624236, blue: 0.574154973, alpha: 1)
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.text = text ?? SLEmptyPageManager.defaultText
-        label.isHidden = text == nil && SLEmptyPageManager.defaultText == nil
-        return label
-    }()
-    private lazy var button: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 35/2
-        button.backgroundColor = SLEmptyPageManager.defaultActionBackColor
-        button.setTitleColor(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0), for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.setTitle(actionTitle ?? SLEmptyPageManager.defaultActionTitle, for: .normal)
-        button.isHidden = actionTitle == nil && SLEmptyPageManager.defaultActionTitle == nil
-        button.clipsToBounds = true
-        button.addTarget(self, action: #selector(buttonClick), for: .touchUpInside)
-        return button
-    }()
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.center = center
-        stackView.axis = .vertical
-        stackView.spacing = 20
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
-        return stackView
-    }()
+    @IBAction private func refreshButtonClick(_ sender: UIButton) {
+        refreshAction?()
+    }
+}
 
-    public init() {
-        super.init(frame: CGRect.zero)
+extension SLEmptyView {
+    public class func loadView() -> SLEmptyView {
+        let view = Bundle.main.loadNibNamed("\(self)", owner: nil, options: nil)?.first as? SLEmptyView
+        return view ?? SLEmptyView()
+    }
+    
+    public override func awakeFromNib() {
+        super.awakeFromNib()
         backgroundColor = SLEmptyPageManager.defaultEmptyViewBgColor
-        addSubview(stackView)
-        stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(textLabel)
-        stackView.addArrangedSubview(UILabel())
-        stackView.addArrangedSubview(button)
     }
-
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    
+    public override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        snp.my_makeConstraints { (make) in
+            make.size.equalToSuperview()
+            make.center.equalToSuperview()
+        }
     }
-
+    
     public override func layoutSubviews() {
         super.layoutSubviews()
-        stackView.snp.makeConstraints { (make) in
-            make.width.centerX.equalToSuperview()
-            make.height.lessThanOrEqualToSuperview()
-            if offsetY != -1 {
-                make.top.equalToSuperview().offset(offsetY)
-            } else {
-                make.centerY.equalToSuperview().offset(-UIApplication.shared.statusBarFrame.height - 44)
-            }
-        }
-        button.snp.makeConstraints { (make) in
-            make.width.equalTo(120)
-            make.height.equalTo(35)
-        }
+        centerYConstraint.constant = -(superview?.safeAreaInsets.top ?? 0) - (isLandscape ? 0 : 80)
+        centerYConstraint.isActive = topMargen == -1
+        topConstraint.isActive = topMargen != -1
     }
+    
+    // 是否横屏
+    private var isLandscape: Bool {
+        UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight
+    }
+}
 
-    @objc func buttonClick() {
-        tapAction?()
+private extension ConstraintViewDSL {
+    func my_makeConstraints(_ closure: (_ make: ConstraintMaker) -> Void) {
+        guard let target = target as? UIView,
+            target.superview != nil else {
+            return
+        }
+        makeConstraints(closure)
     }
 }

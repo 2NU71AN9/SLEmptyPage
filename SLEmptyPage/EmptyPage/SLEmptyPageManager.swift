@@ -17,13 +17,19 @@ public class SLEmptyPageManager: NSObject {
         return UIImage(named: "emptyImage", in: CABundle, compatibleWith: nil)
     }()
     /// 提示内容, nil时隐藏label
-    @objc public static var defaultText: String? = "暂无数据"
+    @objc public static var defaultText: String? = "没有找到数据哦~"
     /// 按钮文字, nil时隐藏按钮
     @objc public static var defaultActionTitle: String?
     /// 按钮背景颜色
     @objc public static var defaultActionBackColor: UIColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1)
     /// EmptyView背景颜色
-    @objc public static var defaultEmptyViewBgColor: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    @objc public static var defaultEmptyViewBgColor: UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor.systemBackground
+        } else {
+            return .white
+        }
+    }
 
     @objc public static var enable: Bool = false {
         didSet {

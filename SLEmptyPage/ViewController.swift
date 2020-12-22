@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        navigationController?.pushViewController(SecondViewController(), animated: true)
-        navigationController?.pushViewController(WebViewController(), animated: true)
+        navigationController?.pushViewController(SecondViewController(), animated: true)
+//        navigationController?.pushViewController(WebViewController(), animated: true)
     }
 }

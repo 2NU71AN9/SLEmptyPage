@@ -21,6 +21,7 @@
 		71D5E31A59029501C16FE9F4 /* Pods_SLEmptyPage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B61810D1B53429B0498AFF15 /* Pods_SLEmptyPage.framework */; };
 		D21D71CC25189233006A487E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21D71CA25189233006A487E /* WebViewController.swift */; };
 		D21D71CD25189233006A487E /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D21D71CB25189233006A487E /* WebViewController.xib */; };
+		D2C721DA2591A5EF00D6F82A /* SLEmptyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D2C721D92591A5EF00D6F82A /* SLEmptyView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		B61810D1B53429B0498AFF15 /* Pods_SLEmptyPage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SLEmptyPage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D21D71CA25189233006A487E /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		D21D71CB25189233006A487E /* WebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
+		D2C721D92591A5EF00D6F82A /* SLEmptyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SLEmptyView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				12963D4C21227C9800535CC7 /* SLEmptyPageExtension.swift */,
 				12963D5D2122CEB200535CC7 /* SLEmptyPageManager.swift */,
 				12963D532122848B00535CC7 /* SLEmptyView.swift */,
+				D2C721D92591A5EF00D6F82A /* SLEmptyView.xib */,
 			);
 			path = EmptyPage;
 			sourceTree = "<group>";
@@ -183,6 +186,7 @@
 				12963D4121227B4A00535CC7 /* LaunchScreen.storyboard in Resources */,
 				12963D3E21227B4A00535CC7 /* Assets.xcassets in Resources */,
 				12963D3C21227B4900535CC7 /* Main.storyboard in Resources */,
+				D2C721DA2591A5EF00D6F82A /* SLEmptyView.xib in Resources */,
 				D21D71CD25189233006A487E /* WebViewController.xib in Resources */,
 				12963D5C2122C81300535CC7 /* Resource.bundle in Resources */,
 			);
@@ -390,18 +394,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M2CXXJLYVV;
+				DEVELOPMENT_TEAM = WK29BGA7MZ;
 				INFOPLIST_FILE = SLEmptyPage/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.SL.SLEmptyPage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -411,18 +415,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = M2CXXJLYVV;
+				DEVELOPMENT_TEAM = WK29BGA7MZ;
 				INFOPLIST_FILE = SLEmptyPage/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.SL.SLEmptyPage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
