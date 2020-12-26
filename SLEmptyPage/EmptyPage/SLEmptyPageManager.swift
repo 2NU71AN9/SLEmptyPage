@@ -23,13 +23,13 @@ public class SLEmptyPageManager: NSObject {
     /// 按钮背景颜色
     @objc public static var defaultActionBackColor: UIColor = #colorLiteral(red: 0, green: 0.5898008943, blue: 1, alpha: 1)
     /// EmptyView背景颜色
-    @objc public static var defaultEmptyViewBgColor: UIColor {
+    @objc public static var defaultEmptyViewBgColor: UIColor = {
         if #available(iOS 13.0, *) {
             return UIColor.systemBackground
         } else {
             return .white
         }
-    }
+    }()
 
     @objc public static var enable: Bool = false {
         didSet {
