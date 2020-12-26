@@ -72,8 +72,12 @@ public class SLEmptyView: UIView {
 
 extension SLEmptyView {
     public class func loadView() -> SLEmptyView {
-        let view = Bundle.main.loadNibNamed("\(self)", owner: nil, options: nil)?.first as? SLEmptyView
-        return view ?? SLEmptyView()
+        guard let path = Bundle.main.path(forResource: "Resource", ofType: "bundle"),
+              let bundle = Bundle(path: path),
+              let view = bundle.loadNibNamed("SLEmptyView", owner: nil, options: nil)?.last as? SLEmptyView else {
+            return SLEmptyView()
+        }
+        return view
     }
     
     public override func awakeFromNib() {
