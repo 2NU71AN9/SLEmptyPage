@@ -116,7 +116,7 @@ extension SLEmptyView {
     static func loadBundle() -> Bundle {
         let bundle = Bundle(for: SLEmptyView.self)
         var myBundle = Bundle.main
-        if let bundleURL = bundle.url(forResource: "SLEmptyView", withExtension: "bundle") {
+        if let bundleURL = bundle.url(forResource: "SLEmptyPage", withExtension: "bundle") {
             myBundle = Bundle(url: bundleURL) ?? Bundle.main
         }
         return myBundle
