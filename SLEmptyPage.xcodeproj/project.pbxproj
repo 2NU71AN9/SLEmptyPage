@@ -21,6 +21,7 @@
 		71D5E31A59029501C16FE9F4 /* Pods_SLEmptyPage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B61810D1B53429B0498AFF15 /* Pods_SLEmptyPage.framework */; };
 		D21D71CC25189233006A487E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21D71CA25189233006A487E /* WebViewController.swift */; };
 		D21D71CD25189233006A487E /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D21D71CB25189233006A487E /* WebViewController.xib */; };
+		D2AC8E0F25F35631001DFAAC /* SLEmptyView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D2AC8E0E25F35631001DFAAC /* SLEmptyView.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		D21D71CA25189233006A487E /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		D21D71CB25189233006A487E /* WebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 		D2A16E8D2597194B005DAE06 /* SLEmptyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SLEmptyView.xib; sourceTree = "<group>"; };
+		D2AC8E0E25F35631001DFAAC /* SLEmptyView.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = SLEmptyView.podspec; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 				12963D3D21227B4A00535CC7 /* Assets.xcassets */,
 				12963D3F21227B4A00535CC7 /* LaunchScreen.storyboard */,
 				12963D4221227B4A00535CC7 /* Info.plist */,
+				D2AC8E0E25F35631001DFAAC /* SLEmptyView.podspec */,
 			);
 			path = SLEmptyPage;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2AC8E0F25F35631001DFAAC /* SLEmptyView.podspec in Resources */,
 				12963D4121227B4A00535CC7 /* LaunchScreen.storyboard in Resources */,
 				12963D3E21227B4A00535CC7 /* Assets.xcassets in Resources */,
 				12963D3C21227B4900535CC7 /* Main.storyboard in Resources */,
@@ -399,7 +403,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.SL.SLEmptyPage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -420,7 +424,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.SL.SLEmptyPage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
