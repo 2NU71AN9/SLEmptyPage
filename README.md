@@ -1,8 +1,8 @@
-# SLEmptyPage
+# SLEmptyView
 利用RunTime设置UITableView, UICollectionView, WebView没有展示信息时显示自定义的空状态页面
 
 ```
-pod 'SLEmptyPage'
+pod 'SLEmptyView'
 ```
 
 使用方法
