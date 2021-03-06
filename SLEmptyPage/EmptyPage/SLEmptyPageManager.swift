@@ -12,9 +12,7 @@ public class SLEmptyPageManager: NSObject {
 
     /// 展示图片
     @objc public static var defaultImage: UIImage? = {
-        let path = Bundle(for: SLEmptyView.self).resourcePath! + "/Resource.bundle"
-        let CABundle = Bundle(path: path)!
-        return UIImage(named: "emptyImage", in: CABundle, compatibleWith: nil)
+        return UIImage(named: "emptyImage", in: SLEmptyView.loadBundle(), compatibleWith: nil)
     }()
     /// 提示内容, nil时隐藏label
     @objc public static var defaultText: String? = "没有找到数据哦~"

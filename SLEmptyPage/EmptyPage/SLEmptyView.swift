@@ -72,13 +72,18 @@ public class SLEmptyView: UIView {
 
 extension SLEmptyView {
     public class func loadView() -> SLEmptyView {
-        let bundle = Bundle(for: SLEmptyView.self)
-        guard let path = bundle.path(forResource: "Resource", ofType: "bundle"),
-              let myBundle = Bundle(path: path),
-              let view = myBundle.loadNibNamed("SLEmptyView", owner: nil, options: nil)?.last as? SLEmptyView else {
+        guard let view = SLEmptyView.loadBundle().loadNibNamed("SLEmptyView", owner: nil, options: nil)?.last as? SLEmptyView else {
             return SLEmptyView()
         }
         return view
+   
+//        let bundle = Bundle(for: SLEmptyView.self)
+//        guard let path = bundle.path(forResource: "Resource", ofType: "bundle"),
+//              let myBundle = Bundle(path: path),
+//              let view = myBundle.loadNibNamed("SLEmptyView", owner: nil, options: nil)?.last as? SLEmptyView else {
+//            return SLEmptyView()
+//        }
+//        return view
     }
     
     public override func awakeFromNib() {
@@ -104,6 +109,17 @@ extension SLEmptyView {
     // 是否横屏
     private var isLandscape: Bool {
         UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight
+    }
+}
+ 
+extension SLEmptyView {
+    static func loadBundle() -> Bundle {
+        let bundle = Bundle(for: SLEmptyView.self)
+        var myBundle = Bundle.main
+        if let bundleURL = bundle.url(forResource: "SLEmptyView", withExtension: "bundle") {
+            myBundle = Bundle(url: bundleURL) ?? Bundle.main
+        }
+        return myBundle
     }
 }
 
