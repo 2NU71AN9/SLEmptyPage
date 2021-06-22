@@ -20,7 +20,7 @@
 		71D5E31A59029501C16FE9F4 /* Pods_SLEmptyPage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B61810D1B53429B0498AFF15 /* Pods_SLEmptyPage.framework */; };
 		D21D71CC25189233006A487E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21D71CA25189233006A487E /* WebViewController.swift */; };
 		D21D71CD25189233006A487E /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D21D71CB25189233006A487E /* WebViewController.xib */; };
-		D2AC8E0F25F35631001DFAAC /* SLEmptyView.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D2AC8E0E25F35631001DFAAC /* SLEmptyView.podspec */; };
+		D2AC8E0F25F35631001DFAAC /* SLEmptyPage.podspec in Resources */ = {isa = PBXBuildFile; fileRef = D2AC8E0E25F35631001DFAAC /* SLEmptyPage.podspec */; };
 		D2AC8EB325F360CD001DFAAC /* SLEmptyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D2A16E8D2597194B005DAE06 /* SLEmptyView.xib */; };
 /* End PBXBuildFile section */
 
@@ -43,7 +43,7 @@
 		D21D71CA25189233006A487E /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		D21D71CB25189233006A487E /* WebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 		D2A16E8D2597194B005DAE06 /* SLEmptyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SLEmptyView.xib; sourceTree = "<group>"; };
-		D2AC8E0E25F35631001DFAAC /* SLEmptyView.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = SLEmptyView.podspec; sourceTree = SOURCE_ROOT; };
+		D2AC8E0E25F35631001DFAAC /* SLEmptyPage.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = SLEmptyPage.podspec; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +89,7 @@
 				12963D3D21227B4A00535CC7 /* Assets.xcassets */,
 				12963D3F21227B4A00535CC7 /* LaunchScreen.storyboard */,
 				12963D4221227B4A00535CC7 /* Info.plist */,
-				D2AC8E0E25F35631001DFAAC /* SLEmptyView.podspec */,
+				D2AC8E0E25F35631001DFAAC /* SLEmptyPage.podspec */,
 			);
 			path = SLEmptyPage;
 			sourceTree = "<group>";
@@ -184,7 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D2AC8EB325F360CD001DFAAC /* SLEmptyView.xib in Resources */,
-				D2AC8E0F25F35631001DFAAC /* SLEmptyView.podspec in Resources */,
+				D2AC8E0F25F35631001DFAAC /* SLEmptyPage.podspec in Resources */,
 				12963D4121227B4A00535CC7 /* LaunchScreen.storyboard in Resources */,
 				12963D3E21227B4A00535CC7 /* Assets.xcassets in Resources */,
 				12963D3C21227B4900535CC7 /* Main.storyboard in Resources */,
