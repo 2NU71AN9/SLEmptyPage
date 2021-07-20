@@ -12,24 +12,24 @@ class SecondViewController: UIViewController {
 
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
-        return tableView
-    }()
-
-    var dateArray = ["1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉"]
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
 //        tableView.emptyViewEnable = false
 //        tableView.emptyView?.topMargen = 300
+//        tableView.isLoadingEnable = false
         tableView.emptyView?.actionTitle = "重新加载"
         tableView.emptyView?.refreshAction = { [weak self] in
-            print("重新加载")
-            self?.dateArray = ["1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉"]
-            self?.tableView.reloadData()
+            self?.loadData()
         }
+        return tableView
+    }()
+
+    var dateArray: [String] = []
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(tableView)
+        loadData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -37,6 +37,15 @@ class SecondViewController: UIViewController {
         tableView.snp.makeConstraints { (make) in
             make.size.equalToSuperview()
             make.center.equalToSuperview()
+        }
+    }
+    
+    private func loadData() {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.dateArray = [] //["1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉", "1", "2", "下拉"]
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
         }
     }
 }

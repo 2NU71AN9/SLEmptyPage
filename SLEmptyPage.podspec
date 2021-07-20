@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "SLEmptyPage"
-s.version      = "1.1.3"
+s.version      = "1.1.4"
 s.swift_version  = "5.0"
 s.summary      = "空状态页"
 s.description  = "设置UITableView和UICollectionView没有展示信息时显示自定义的空状态页面"

@@ -10,11 +10,11 @@ import UIKit
 
 public class SLEmptyPageManager: NSObject {
 
-    /// 展示图片
-    @objc public static var defaultImage: UIImage? = {
-        return UIImage(named: "emptyImage", in: SLEmptyView.loadBundle(), compatibleWith: nil)
-    }()
-    /// 提示内容, nil时隐藏label
+    /// 加载时提示内容, nil时隐藏label
+    @objc public static var defaultLoadingText: String? = "正在加载中..."
+    /// 空状态展示图片
+    @objc public static var defaultImage = UIImage(named: "emptyImage", in: SLEmptyView.loadBundle(), compatibleWith: nil)
+    /// 空状态提示内容, nil时隐藏label
     @objc public static var defaultText: String? = "没有找到数据哦~"
     /// 按钮文字, nil时隐藏按钮
     @objc public static var defaultActionTitle: String?

@@ -14,6 +14,9 @@ public extension UIScrollView {
         static let emptyViewKey = UnsafeRawPointer(bitPattern: "scroll_emptyViewKey".hashValue)!
         static let oldEmptyViewKey = UnsafeRawPointer(bitPattern: "scroll_oldEmptyViewKey".hashValue)!
         static let emptyViewEnableKey = UnsafeRawPointer(bitPattern: "scroll_emptyViewEnableKey".hashValue)!
+        static let isLoadingKey = UnsafeRawPointer(bitPattern: "scroll_isLoading".hashValue)!
+        static let isLoadingEnableKey = UnsafeRawPointer(bitPattern: "scroll_isLoadingEnable".hashValue)!
+        static let reloadTime = UnsafeRawPointer(bitPattern: "scroll_reloadTime".hashValue)!
     }
 
     @objc var oldEmptyView: SLEmptyView? {
@@ -58,6 +61,35 @@ public extension UIScrollView {
             objc_setAssociatedObject(self, EmptyViewKey.emptyViewEnableKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
+    
+    /// 是否在加载阶段
+    @objc var isLoading: Bool {
+        get {
+            return objc_getAssociatedObject(self, EmptyViewKey.isLoadingKey) as? Bool ?? true
+        }
+        set {
+            objc_setAssociatedObject(self, EmptyViewKey.isLoadingKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            if emptyView?.isLoading != newValue { emptyView?.isLoading = newValue }
+        }
+    }
+    /// 控制是否在加载阶段
+    @objc var isLoadingEnable: Bool {
+        get {
+            return objc_getAssociatedObject(self, EmptyViewKey.isLoadingEnableKey) as? Bool ?? true
+        }
+        set {
+            objc_setAssociatedObject(self, EmptyViewKey.isLoadingEnableKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    @objc var reloadTime: Int {
+        get {
+            return objc_getAssociatedObject(self, EmptyViewKey.reloadTime) as? Int ?? 0
+        }
+        set {
+            objc_setAssociatedObject(self, EmptyViewKey.reloadTime, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
 }
 
 extension UITableView {
@@ -99,6 +131,8 @@ extension UITableView {
     }
 
     @objc func table_emptyReloadData() {
+        reloadTime += 1
+        if reloadTime > 1 { isLoading = false }
         if emptyView != nil {
             setEmptyView {
                 [weak self] in
@@ -150,6 +184,8 @@ extension UICollectionView {
     }
 
     @objc func coll_emptyReloadData() {
+        reloadTime += 1
+        if reloadTime > 1 { isLoading = false }
         if emptyView != nil {
             setEmptyView { [weak self] in
                 guard let base = self else { return }
@@ -192,6 +228,7 @@ extension UITableView {
         event()
 
         if let emptyView = emptyView, emptyViewEnable, subviews.contains(emptyView) == false {
+            emptyView.isLoading = isLoadingEnable && isLoading
             addSubview(emptyView)
         }
     }
@@ -228,6 +265,7 @@ extension UICollectionView {
         event()
 
         if let emptyView = emptyView, emptyViewEnable, subviews.contains(emptyView) == false {
+            emptyView.isLoading = isLoadingEnable && isLoading
             addSubview(emptyView)
         }
     }

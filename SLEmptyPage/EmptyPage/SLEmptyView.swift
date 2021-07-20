@@ -11,27 +11,45 @@ import SnapKit
 
 public class SLEmptyView: UIView {
 
-    /// 展示图片,不设置时用默认的
+    @objc var isLoading = false {
+        didSet {
+            setUI()
+        }
+    }
+    /// 加载时提示内容,不设置时用默认的,设置nil时隐藏label
+    @objc public var loadingText: String? {
+        didSet {
+            if isLoading {
+                textLabel.text = loadingText
+                textLabel.isHidden = loadingText == nil
+            }
+        }
+    }
+    /// 空状态展示图片,不设置时用默认的
     @objc public var image: UIImage? {
         didSet {
-            imageView.image = image
+            if !isLoading {
+                imageView.image = image
+            }
         }
     }
-    /// 提示内容,不设置时用默认的,设置nil时隐藏label
+    /// 空状态提示内容,不设置时用默认的,设置nil时隐藏label
     @objc public var text: String? {
         didSet {
-            textLabel.text = text
-            textLabel.isHidden = text == nil
+            if !isLoading {
+                textLabel.text = text
+                textLabel.isHidden = text == nil
+            }
         }
     }
-    /// 按钮文字,不设置时用默认的,设置nil时隐藏按钮
+    /// 空状态按钮文字,不设置时用默认的,设置nil时隐藏按钮
     @objc public var actionTitle: String? {
         didSet {
             refreshBtn.setTitle(actionTitle, for: .normal)
-            refreshBtn.isHidden = actionTitle == nil
+            refreshBtn.isHidden = isLoading || actionTitle == nil
         }
     }
-    /// 按钮点击触发的闭包
+    /// 空状态按钮点击触发的闭包
     @objc public var refreshAction: (() -> Void)?
     /// 距离顶部多少, -1时在屏幕中间
     @objc public var topMargen: CGFloat = -1 {
@@ -42,24 +60,13 @@ public class SLEmptyView: UIView {
         }
     }
     
-    @IBOutlet private weak var imageView: UIImageView! {
-        didSet {
-            imageView.image = image ?? SLEmptyPageManager.defaultImage
-        }
-    }
-    @IBOutlet private weak var textLabel: UILabel! {
-        didSet {
-            textLabel.text = text ?? SLEmptyPageManager.defaultText
-            textLabel.isHidden = text == nil && SLEmptyPageManager.defaultText == nil
-        }
-    }
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var activityView: UIActivityIndicatorView!
+    @IBOutlet private weak var textLabel: UILabel!
     @IBOutlet private weak var refreshBtn: UIButton! {
         didSet {
             refreshBtn.layer.cornerRadius = 22.5
             refreshBtn.clipsToBounds = true
-            refreshBtn.backgroundColor = SLEmptyPageManager.defaultActionBackColor
-            refreshBtn.setTitle(actionTitle ?? SLEmptyPageManager.defaultActionTitle, for: .normal)
-            refreshBtn.isHidden = actionTitle == nil && SLEmptyPageManager.defaultActionTitle == nil
         }
     }
     @IBOutlet private weak var topConstraint: NSLayoutConstraint!
@@ -76,19 +83,12 @@ extension SLEmptyView {
             return SLEmptyView()
         }
         return view
-   
-//        let bundle = Bundle(for: SLEmptyView.self)
-//        guard let path = bundle.path(forResource: "Resource", ofType: "bundle"),
-//              let myBundle = Bundle(path: path),
-//              let view = myBundle.loadNibNamed("SLEmptyView", owner: nil, options: nil)?.last as? SLEmptyView else {
-//            return SLEmptyView()
-//        }
-//        return view
     }
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = SLEmptyPageManager.defaultEmptyViewBgColor
+        setUI()
     }
     
     public override func didMoveToSuperview() {
@@ -109,6 +109,18 @@ extension SLEmptyView {
     // 是否横屏
     private var isLandscape: Bool {
         UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight
+    }
+    
+    private func setUI() {
+        isLoading ? activityView.startAnimating() : activityView.stopAnimating()
+        activityView.isHidden = !isLoading
+        imageView.image = image ?? SLEmptyPageManager.defaultImage
+        imageView.isHidden = isLoading
+        textLabel.text = isLoading ? (loadingText ?? SLEmptyPageManager.defaultLoadingText) : (text ?? SLEmptyPageManager.defaultText)
+        textLabel.isHidden = isLoading ? loadingText == nil && SLEmptyPageManager.defaultLoadingText == nil : text == nil && SLEmptyPageManager.defaultText == nil
+        refreshBtn.backgroundColor = SLEmptyPageManager.defaultActionBackColor
+        refreshBtn.setTitle(actionTitle ?? SLEmptyPageManager.defaultActionTitle, for: .normal)
+        refreshBtn.isHidden = isLoading || (actionTitle == nil && SLEmptyPageManager.defaultActionTitle == nil)
     }
 }
  
