@@ -58,7 +58,7 @@ public extension UIScrollView {
             return objc_getAssociatedObject(self, EmptyViewKey.emptyViewEnableKey) as? Bool ?? true
         }
         set {
-            objc_setAssociatedObject(self, EmptyViewKey.emptyViewEnableKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, EmptyViewKey.emptyViewEnableKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
     
@@ -68,7 +68,7 @@ public extension UIScrollView {
             return objc_getAssociatedObject(self, EmptyViewKey.isLoadingKey) as? Bool ?? true
         }
         set {
-            objc_setAssociatedObject(self, EmptyViewKey.isLoadingKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, EmptyViewKey.isLoadingKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
             if emptyView?.isLoading != newValue { emptyView?.isLoading = newValue }
         }
     }
@@ -78,7 +78,7 @@ public extension UIScrollView {
             return objc_getAssociatedObject(self, EmptyViewKey.isLoadingEnableKey) as? Bool ?? true
         }
         set {
-            objc_setAssociatedObject(self, EmptyViewKey.isLoadingEnableKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, EmptyViewKey.isLoadingEnableKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
     
@@ -87,7 +87,7 @@ public extension UIScrollView {
             return objc_getAssociatedObject(self, EmptyViewKey.reloadTime) as? Int ?? 0
         }
         set {
-            objc_setAssociatedObject(self, EmptyViewKey.reloadTime, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, EmptyViewKey.reloadTime, newValue, .OBJC_ASSOCIATION_ASSIGN)
         }
     }
 }
