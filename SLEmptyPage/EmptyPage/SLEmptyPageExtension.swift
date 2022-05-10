@@ -75,7 +75,7 @@ public extension UIScrollView {
     /// 控制是否在加载阶段
     @objc var isLoadingEnable: Bool {
         get {
-            return objc_getAssociatedObject(self, EmptyViewKey.isLoadingEnableKey) as? Bool ?? true
+            return objc_getAssociatedObject(self, EmptyViewKey.isLoadingEnableKey) as? Bool ?? false
         }
         set {
             objc_setAssociatedObject(self, EmptyViewKey.isLoadingEnableKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
